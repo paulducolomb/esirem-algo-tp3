@@ -42,10 +42,12 @@ void showSolution(struct Solution solution) {
 
 double resolveOne(int b, int c) {
     return ((double)-c / (double)b);   //correction beug avec les doubles pour corriger les imprecisions
+
 }
 
 void resolveTwo(int a, int b, int c, struct Solution *solution) {
     double delta = (b * b) - 4 * a * c;
+    //printf("%f",delta);
     if (delta > 0) {
         solution->type = TWO;
         solution->x1 = (-b - sqrt(delta)) / (2.0 * a);
