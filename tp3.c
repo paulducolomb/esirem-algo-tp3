@@ -39,11 +39,11 @@ void showSolution(struct Solution solution) {
 }
 
 double resolveOne(int b, int c) {
-    return (double)(-c / b);
+    return ((double)-c / (double)b);   //correction beug avec les doubles pour corriger les imprecisions
 }
 
 void resolveTwo(int a, int b, int c, struct Solution *solution) {
-    int delta = (b * b) - 4 * a * c;
+    double delta = (b * b) - 4 * a * c;
 
     if (delta > 0) {
         solution->type = TWO;
