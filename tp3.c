@@ -124,6 +124,7 @@ void test() {
     struct Equation equation5;
     equation5.a=a5;
     equation5.b=b5;
+    equation5.c=0;
     resolve(&equation5);
     showSolution(equation5.solution);
 
