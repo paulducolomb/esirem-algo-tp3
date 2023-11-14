@@ -38,8 +38,8 @@ void showSolution(struct Solution solution) {
     }
 }
 
-double resolveOne(int a, int b) {
-    return (double)(-b / a);
+double resolveOne(int b, int c) {
+    return (double)(-c / b);
 }
 
 void resolveTwo(int a, int b, int c, struct Solution *solution) {
@@ -56,26 +56,35 @@ void resolveTwo(int a, int b, int c, struct Solution *solution) {
         solution->type = NONE;
     }
 }
-void decode(char *equa, struct Equation *equation) {
-    if (sscanf(equa, "%dx^2 +%dx +%d", &equation->a, &equation->b, &equation->c) == 3) {
-        return;
-    }
-    if (sscanf(equa, "%dx +%d", &equation->a, &equation->b) == 2) {
-        equation->c = 0;
-        return;
-    }
-    printf("Invalid equation format: %s\n", equa);
-}
+
 
 void resolve(struct Equation *equation) {
-    if (equation->c != 0 /*&& equation->c != NULL*/) { //problème pour prendre en compte c=0 ou pas de c d'entré
+
+    if (equation->a != 0 /*&& equation->a != NULL*/) { //problème pour prendre en compte a=0 ou pas de a d'entré
         resolveTwo(equation->a, equation->b, equation->c, &equation->solution);
     } else {
         equation->solution.type = ONE;
-        equation->solution.x0 = resolveOne(equation->a, equation->b);
-        printf("resolveone\n");
+        equation->solution.x0 = resolveOne(equation->b, equation->c);
     }
 }
+struct Solution decode(char *equa, struct Equation *equation) {
+
+    if (sscanf(equa, "%dx` +%dx +%d", &equation->a, &equation->b, &equation->c) == 3) {
+        resolve(equation);
+        return equation->solution;
+    }
+
+    if (sscanf(equa, "%dx +%d", &equation->b, &equation->c) == 2) {
+        equation->a = 0;
+        resolve(equation);
+        return equation->solution;
+    }
+
+    printf("Format invalide: %s\n", equa);
+    equation->solution.type = NONE;
+    return equation->solution;
+}
+
 
 void test() {
     struct Solution solutions[] = {
@@ -90,9 +99,9 @@ void test() {
 
     }
     //test resolve 1 : 2x-4=0
-    int a1 = 2;
-    int b1 = -4;
-    double solution1 = resolveOne(a1, b1);
+    int b1 = 2;
+    int c1 = -4;
+    double solution1 = resolveOne(b1, c1);
 
     //test resolve 2 delta+: -3x + 6 + 2 = 0
     int a2 = -3;
@@ -125,15 +134,15 @@ void test() {
     int b5=5;
     int c5=1;
 
-    //resolveone
+    printf("//resolveone\n");
     struct Equation equation5;
-    equation5.a=a5;
+    equation5.a=0;
     equation5.b=b5;
-    equation5.c=0;
+    equation5.c=c5;
     resolve(&equation5);
     showSolution(equation5.solution);
 
-    //resolvetwo
+    printf("resolvetwo\n");
     struct Equation equation6;
     equation6.a=a5;
     equation6.b=b5;
@@ -142,12 +151,13 @@ void test() {
     showSolution(equation6.solution);
 
     struct Equation equation7;
-    decode("4x^2 +2x +8",&equation7);
+    struct Equation equation8;
+    decode("3x` +5x +1",&equation7);
+    decode("7x +-8",&equation8);
     showSolution(equation7.solution);
-
+    showSolution(equation8.solution);
 
 }
-
 
 int main(){
     test();
