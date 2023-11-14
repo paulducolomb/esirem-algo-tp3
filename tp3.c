@@ -52,14 +52,11 @@ void resolveTwo(int a, int b, int c, struct Solution *solution) {
         solution->type = TWO;
         solution->x1 = (-b - sqrt(delta)) / (2.0 * a);
         solution->x2 = (-b + sqrt(delta)) / (2.0 * a);
-        printf("Pour %dx^2 + %dx + %d = 0, x1 = %.2f et x2 = %.2f\n", a, b, c, solution->x1, solution->x2);
     } else if (delta == 0) {
         solution->type = ONE;
         solution->x0 = -b / (2.0 * a);
-        printf("Pour %dx^2 + %dx + %d = 0, x = %.2f\n", a, b, c, solution->x0);
     } else {
         solution->type = NONE;
-        printf("Pour %dx^2 + %dx + %d = 0, il n'y a aucune solution réelle\n", a, b, c);
     }
 }
 
@@ -86,24 +83,26 @@ void test() {
     int a2 = -3;
     int b2 = 6;
     int c2 = 2;
-    double solution2, solution3;
-    resolveTwo(a2, b2, c2, &solution2, &solution3);
+    struct Solution solution2;
+    resolveTwo(a2, b2, c2, &solution2);
+    showSolution(solution2);
 
     //test resolve 3 delta=0: -3x + 6 + 2 = 0
     int a3 = 2;
     int b3 = 4;
     int c3 = 2;
-    double solution4, solution5;
-    resolveTwo(a3, b3, c3, &solution4, &solution5);
+    struct Solution solution3;
+    resolveTwo(a3, b3, c3, &solution3);
+    showSolution(solution3);
 
 
     //test resolve 3 delta-: 3x + 2 + 2 = 0
     int a4 = 3;
     int b4 = 2;
     int c4 = 2;
-    int delta2= b4*b4-4*a4*c4;
-    double solution6, solution7;
-    resolveTwo(a4, b4, c4, &solution6, &solution7);
+    struct Solution solution4;
+    resolveTwo(a4, b4, c4, &solution4);
+    showSolution(solution4);
 }
 
 
