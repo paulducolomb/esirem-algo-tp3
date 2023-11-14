@@ -56,6 +56,16 @@ void resolveTwo(int a, int b, int c, struct Solution *solution) {
         solution->type = NONE;
     }
 }
+void decode(char *equa, struct Equation *equation) {
+    if (sscanf(equa, "%dx^2 +%dx +%d", &equation->a, &equation->b, &equation->c) == 3) {
+        return;
+    }
+    if (sscanf(equa, "%dx +%d", &equation->a, &equation->b) == 2) {
+        equation->c = 0;
+        return;
+    }
+    printf("Invalid equation format: %s\n", equa);
+}
 
 void resolve(struct Equation *equation) {
     if (equation->c != 0 /*&& equation->c != NULL*/) { //problème pour prendre en compte c=0 ou pas de c d'entré
@@ -66,11 +76,6 @@ void resolve(struct Equation *equation) {
         printf("resolveone\n");
     }
 }
-
-
-;
-
-
 
 void test() {
     struct Solution solutions[] = {
@@ -135,6 +140,10 @@ void test() {
     equation6.c=c5;
     resolve(&equation6);
     showSolution(equation6.solution);
+
+    struct Equation equation7;
+    decode("4x^2 +2x +8",&equation7);
+    showSolution(equation7.solution);
 
 
 }
