@@ -42,9 +42,6 @@ double resolveOne(int a, int b) {
     return (double)(-b / a);
 }
 
-#include <stdio.h>
-#include <math.h>
-
 void resolveTwo(int a, int b, int c, struct Solution *solution) {
     int delta = (b * b) - 4 * a * c;
 
@@ -59,6 +56,9 @@ void resolveTwo(int a, int b, int c, struct Solution *solution) {
         solution->type = NONE;
     }
 }
+
+
+;
 
 
 
@@ -103,6 +103,8 @@ void test() {
     struct Solution solution4;
     resolveTwo(a4, b4, c4, &solution4);
     showSolution(solution4);
+
+
 }
 
 
