@@ -57,6 +57,14 @@ void resolveTwo(int a, int b, int c, struct Solution *solution) {
     }
 }
 
+void resolve(struct Equation *equation) {
+    if (equation->c == 1) {
+        equation->solution.type = ONE;
+        equation->solution.x0 = resolveOne(equation->a, equation->b);
+    } else {
+        resolveTwo(equation->a, equation->b, equation->c, &equation->solution);
+    }
+}
 
 ;
 
