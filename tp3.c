@@ -45,26 +45,22 @@ double resolveOne(int a, int b) {
 #include <stdio.h>
 #include <math.h>
 
-void resolveTwo(int a, int b, int c, double *r1, double *r2) {
+void resolveTwo(int a, int b, int c, struct Solution *solution) {
     int delta = (b * b) - 4 * a * c;
 
     if (delta > 0) {
-        *r1 = (-b - sqrt(delta)) / (2.0 * a);
-        *r2 = (-b + sqrt(delta)) / (2.0 * a);
-        printf("Pour %dx^2 + %dx + %d = 0, x1 = %.2lf et x2 = %.2lf\n", a, b, c, *r1, *r2);
+        solution->type = TWO;
+        solution->x1 = (-b - sqrt(delta)) / (2.0 * a);
+        solution->x2 = (-b + sqrt(delta)) / (2.0 * a);
+        printf("Pour %dx^2 + %dx + %d = 0, x1 = %.2f et x2 = %.2f\n", a, b, c, solution->x1, solution->x2);
     } else if (delta == 0) {
-        *r1 = *r2 = -b / (2.0 * a);
-        printf("Pour %dx^2 + %dx + %d = 0, x1 = %.2lf et x2 = %.2lf\n", a, b, c, *r1, *r2);
-
+        solution->type = ONE;
+        solution->x0 = -b / (2.0 * a);
+        printf("Pour %dx^2 + %dx + %d = 0, x = %.2f\n", a, b, c, solution->x0);
     } else {
-        double realPart = -b / (2.0 * a);
-        double imaginaryPart = sqrt(-delta) / (2.0 * a);
-
-        *r1 = realPart + imaginaryPart;
-        *r2 = realPart - imaginaryPart;
-        printf("Les solutions sont : x1 = %.2lf + %.2lfi et x2 = %.2lf - %.2lfi\n", realPart, imaginaryPart, realPart, imaginaryPart);
+        solution->type = NONE;
+        printf("Pour %dx^2 + %dx + %d = 0, il n'y a aucune solution réelle\n", a, b, c);
     }
-
 }
 
 
