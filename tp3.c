@@ -3,6 +3,7 @@
 
 #include <stdio.h>
 #include <math.h>
+
 enum SolutionType {
     NONE,
     ONE,
@@ -45,7 +46,6 @@ double resolveOne(int b, int c) {
 
 void resolveTwo(int a, int b, int c, struct Solution *solution) {
     double delta = (b * b) - 4 * a * c;
-
     if (delta > 0) {
         solution->type = TWO;
         solution->x1 = (-b - sqrt(delta)) / (2.0 * a);
@@ -60,7 +60,6 @@ void resolveTwo(int a, int b, int c, struct Solution *solution) {
 
 
 void resolve(struct Equation *equation) {
-
     if (equation->a != 0 /*&& equation->a != NULL*/) { //problème pour prendre en compte a=0 ou pas de a d'entré
         resolveTwo(equation->a, equation->b, equation->c, &equation->solution);
     } else {
@@ -68,18 +67,31 @@ void resolve(struct Equation *equation) {
         equation->solution.x0 = resolveOne(equation->b, equation->c);
     }
 }
+
 struct Solution decode(char *equa, struct Equation *equation) {
 
-    if (sscanf(equa, "%dx` +%dx +%d", &equation->a, &equation->b, &equation->c) == 3) {
+    if (sscanf(equa, "%dx` +%dx +%d", &equation->a, &equation->b, &equation->c) == 3) { //cas générale ax^2 +bx +c
         resolve(equation);
         return equation->solution;
     }
 
-    if (sscanf(equa, "%dx +%d", &equation->b, &equation->c) == 2) {
+    if (sscanf(equa, "%dx +%d", &equation->b, &equation->c) == 2) {  //cas pour a=0 : ax+b
         equation->a = 0;
         resolve(equation);
         return equation->solution;
     }
+
+    if (sscanf(equa, "%dx` +%d", &equation->a, &equation->b) == 2) { //cas pour c=0 ex=3x^2 + 5x
+        equation->c = 0;
+        resolve(equation);
+        return equation->solution;
+    }
+    if (sscanf(equa, "%dx` +%", &equation->a, &equation->c) == 2) { //cas pour b=0 ex=3x^2 + 5
+        equation->b = 0;
+        resolve(equation);
+        return equation->solution;
+    }
+
 
     printf("Format invalide: %s\n", equa);
     equation->solution.type = NONE;
@@ -135,7 +147,7 @@ void test() {
     int b5=5;
     int c5=1;
 
-    printf("//resolveone\n");
+    printf("resolveone : \n");
     struct Equation equation5;
     equation5.a=0;
     equation5.b=b5;
@@ -143,7 +155,7 @@ void test() {
     resolve(&equation5);
     showSolution(equation5.solution);
 
-    printf("resolvetwo\n");
+    printf("resolvetwo : \n");
     struct Equation equation6;
     equation6.a=a5;
     equation6.b=b5;
@@ -154,18 +166,30 @@ void test() {
     struct Equation equation7;
     struct Equation equation8;
     struct Equation equation9;
+    struct Equation equation10;
+    struct Equation equation11;
+
 
     char equa1[150];
-    decode("3x` +5x +1",&equation7);
-    decode("7x +-8",&equation8);
+
+    decode("5x` +4x +1",&equation7); //cas pour ax^2 +bx + c
+    decode("3x +-9",&equation8);     //cas pour bx + c
+    decode("2x` +1",&equation10);     //cas pour ax^2 + c
+    decode("2x` +1x",&equation11);     //cas pour ax^2 + bx
+    printf("cas pour ax^2 +bx + c : \n");
+    showSolution(equation7.solution);
+    printf("cas pour bx + c : \n");
+    showSolution(equation8.solution);
+    printf("cas pour ax^2 + c : \n");
+    showSolution(equation10.solution);
+    printf("cas pour ax^2 + bx : \n");
+    showSolution(equation11.solution);
+
+
     fgets(equa1, 150, stdin);  //fgets pour remplacer le scanf
     //printf("%s",equa1);
     decode(equa1,&equation9); //resolution de la fonction introduite par l'utilisateur
-
-    showSolution(equation7.solution);
-    showSolution(equation8.solution);
     showSolution(equation9.solution);
-
 }
 
 int main(){
