@@ -58,13 +58,15 @@ void resolveTwo(int a, int b, int c, struct Solution *solution) {
 }
 
 void resolve(struct Equation *equation) {
-    if (equation->c == 1) {
+    if (equation->c != 0 /*&& equation->c != NULL*/) { //problème pour prendre en compte c=0 ou pas de c d'entré
+        resolveTwo(equation->a, equation->b, equation->c, &equation->solution);
+    } else {
         equation->solution.type = ONE;
         equation->solution.x0 = resolveOne(equation->a, equation->b);
-    } else {
-        resolveTwo(equation->a, equation->b, equation->c, &equation->solution);
+        printf("resolveone\n");
     }
 }
+
 
 ;
 
@@ -95,7 +97,7 @@ void test() {
     resolveTwo(a2, b2, c2, &solution2);
     showSolution(solution2);
 
-    //test resolve 3 delta=0: -3x + 6 + 2 = 0
+    //test resolve2 delta=0: -3x + 6 + 2 = 0
     int a3 = 2;
     int b3 = 4;
     int c3 = 2;
@@ -104,13 +106,34 @@ void test() {
     showSolution(solution3);
 
 
-    //test resolve 3 delta-: 3x + 2 + 2 = 0
+    //test resolve2  delta-: 3x + 2 + 2 = 0
     int a4 = 3;
     int b4 = 2;
     int c4 = 2;
     struct Solution solution4;
     resolveTwo(a4, b4, c4, &solution4);
     showSolution(solution4);
+
+
+    //test resolve
+    int a5=3;
+    int b5=5;
+    int c5=1;
+
+    //resolveone
+    struct Equation equation5;
+    equation5.a=a5;
+    equation5.b=b5;
+    resolve(&equation5);
+    showSolution(equation5.solution);
+
+    //resolvetwo
+    struct Equation equation6;
+    equation6.a=a5;
+    equation6.b=b5;
+    equation6.c=c5;
+    resolve(&equation6);
+    showSolution(equation6.solution);
 
 
 }
