@@ -1,5 +1,6 @@
 //
 // Created by pauld on 09/11/2023.
+
 #include <stdio.h>
 #include <math.h>
 enum SolutionType {
@@ -152,10 +153,17 @@ void test() {
 
     struct Equation equation7;
     struct Equation equation8;
+    struct Equation equation9;
+
+    char equa1;
+    scanf("donnes moi une equation de ce format :\n1er degré : (a)x` +(b)x +(c)\n2eme degre : (a)x +(b)\n",equa1);
     decode("3x` +5x +1",&equation7);
     decode("7x +-8",&equation8);
+    decode(equa1,&equation9);
+
     showSolution(equation7.solution);
     showSolution(equation8.solution);
+    showSolution(equation9.solution);
 
 }
 
