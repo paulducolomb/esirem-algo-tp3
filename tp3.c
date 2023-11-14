@@ -158,10 +158,9 @@ void test() {
     char equa1[150];
     decode("3x` +5x +1",&equation7);
     decode("7x +-8",&equation8);
-    fgets(equa1, 150, stdin);
-//    scanf("%s",equa1);
-    printf("%s",equa1);
-    decode(equa1,&equation9);
+    fgets(equa1, 150, stdin);  //fgets pour remplacer le scanf
+    //printf("%s",equa1);
+    decode(equa1,&equation9); //resolution de la fonction introduite par l'utilisateur
 
     showSolution(equation7.solution);
     showSolution(equation8.solution);
